@@ -1,0 +1,28 @@
+# Normalize text files to LF
+* text=auto
+
+# Flutter / Dart and project configuration
+*.dart text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.cmake text eol=lf
+*.cpp text eol=lf
+*.cc text eol=lf
+*.h text eol=lf
+*.txt text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files
+*.ico binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.exe binary
+*.dll binary
+*.pfx binary
