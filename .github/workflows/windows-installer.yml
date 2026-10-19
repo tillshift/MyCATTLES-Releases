@@ -1,0 +1,70 @@
+name: Windows Installer (unsigned)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Build and package Windows installer
+    runs-on: windows-2022
+    timeout-minutes: 40
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Windows release
+        run: flutter build windows --release
+
+      - name: Read application version
+        id: app_version
+        shell: pwsh
+        run: |
+          $line = Get-Content pubspec.yaml | Where-Object { $_ -match '^version:\s*' } | Select-Object -First 1
+          if (-not $line -or $line -notmatch '^version:\s*([0-9]+\.[0-9]+\.[0-9]+)') {
+            throw 'pubspec.yaml must have a version such as version: 0.1.0+1'
+          }
+          "value=$($Matches[1])" >> $env:GITHUB_OUTPUT
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco install innosetup --yes --no-progress
+
+      - name: Compile unsigned installer
+        shell: pwsh
+        run: |
+          $iscc = 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+          $release = (Resolve-Path 'build/windows/x64/runner/Release').Path
+          if (-not (Test-Path "$release/mycattles.exe")) { throw 'mycattles.exe not found' }
+          if (-not (Test-Path $iscc)) { throw "ISCC.exe not found: $iscc" }
+          & $iscc "/DMyAppVersion=${{ steps.app_version.outputs.value }}" "/DReleaseDir=$release" 'installer/MyCATTLES.iss'
+          if ($LASTEXITCODE -ne 0) { throw "ISCC failed with exit code $LASTEXITCODE" }
+
+      - name: Generate SHA-256 checksum
+        shell: pwsh
+        run: |
+          $setup = Get-ChildItem dist -Filter '*.exe' | Select-Object -First 1
+          if (-not $setup) { throw 'Installer not found' }
+          $hash = (Get-FileHash $setup.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  $($setup.Name)" | Set-Content -Path "dist/SHA256SUMS.txt" -Encoding ascii
+
+      - name: Upload unsigned installer and checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyCATTLES-Installer-unsigned
+          path: |
+            dist/*.exe
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
