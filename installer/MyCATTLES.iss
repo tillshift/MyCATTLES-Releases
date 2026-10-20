@@ -14,6 +14,7 @@ AppId={{048563B8-ED4A-5F1A-9D0F-AA14ACD34457}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher=TILLSHIFT
+SetupIconFile=..\windows\runner\resources\app_icon.ico
 DefaultDirName={localappdata}\Programs\MyCATTLES
 DefaultGroupName=MyCATTLES
 PrivilegesRequired=lowest
@@ -36,3 +37,6 @@ Name: "{autoprograms}\MyCATTLES"; Filename: "{app}\{#MyAppExeName}"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "MyCATTLESを起動"; Flags: nowait postinstall skipifsilent
+
+[Languages]
+Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
