@@ -1,0 +1,18 @@
+{
+  "manifest_version": 4,
+  "name": "MyCATTLES Bridge",
+  "version": "1.0.0",
+  "description": "Local form analysis, app handoff and browser focus",
+  "permissions": [
+    "nativeMessaging",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
