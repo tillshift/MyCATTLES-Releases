@@ -1,4 +1,4 @@
-; MyCATTLES per-user installer with Chrome Web Store Native Messaging Host.
+﻿; MyCATTLES per-user installer with Chrome Web Store Native Messaging Host.
 #ifndef MyAppVersion
   #error MyAppVersion must be passed
 #endif
@@ -57,29 +57,64 @@ Filename: "{app}\{#MyAppExeName}"; Description: "Launch MyCATTLES"; Flags: nowai
 [Languages]
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 [Code]
+procedure RunHostCleanup(StopOnly: Boolean);
+var
+  ResultCode: Integer;
+  Cmd: String;
+  ScriptPath: String;
+begin
+  ScriptPath := ExpandConstant('{app}\host\uninstall_host.ps1');
+  if not FileExists(ScriptPath) then
+    Exit;
+
+  Cmd := '-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "' + ScriptPath + '"';
+  if StopOnly then
+    Cmd := Cmd + ' -StopOnly';
+
+  if not Exec(
+    ExpandConstant('{sys}\WindowsPowerShell\v1.0\powershell.exe'),
+    Cmd, '', SW_HIDE, ewWaitUntilTerminated, ResultCode
+  ) then
+    RaiseException('Could not start Native Host cleanup')
+  else if ResultCode <> 0 then
+    RaiseException('Native Host cleanup failed: ' + IntToStr(ResultCode));
+end;
+
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+begin
+  Result := '';
+  try
+    RunHostCleanup(True);
+  except
+    Result := GetExceptionMessage;
+  end;
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
   Cmd: String;
 begin
-  if CurStep = ssPostInstall then begin
-    Cmd := '-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "' + ExpandConstant('{app}\host\install_host.ps1') + '" -WebStoreExtensionId "{#ChromeExtensionId}" -GitHubExtensionId "{#GitHubExtensionId}"';
-    if not Exec(ExpandConstant('{sys}\WindowsPowerShell\v1.0\powershell.exe'), Cmd, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  if CurStep = ssPostInstall then
+  begin
+    Cmd :=
+      '-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "' +
+      ExpandConstant('{app}\host\install_host.ps1') +
+      '" -WebStoreExtensionId "{#ChromeExtensionId}"' +
+      ' -GitHubExtensionId "{#GitHubExtensionId}"';
+
+    if not Exec(
+      ExpandConstant('{sys}\WindowsPowerShell\v1.0\powershell.exe'),
+      Cmd, '', SW_HIDE, ewWaitUntilTerminated, ResultCode
+    ) then
       RaiseException('Native Messaging registration could not start')
     else if ResultCode <> 0 then
-      RaiseException('Native Messaging registration failed (exit code ' + IntToStr(ResultCode) + ')');
+      RaiseException('Native Messaging registration failed: ' + IntToStr(ResultCode));
   end;
 end;
+
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-var
-  ResultCode: Integer;
-  Cmd: String;
 begin
-  if CurUninstallStep = usUninstall then begin
-    Cmd := '-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "' + ExpandConstant('{app}\host\uninstall_host.ps1') + '"';
-    if not Exec(ExpandConstant('{sys}\WindowsPowerShell\v1.0\powershell.exe'), Cmd, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-      Log('WARNING: Could not start Native Messaging unregister')
-    else if ResultCode <> 0 then
-      Log('WARNING: Native Messaging unregister failed: ' + IntToStr(ResultCode));
-  end;
+  if CurUninstallStep = usUninstall then
+    RunHostCleanup(False);
 end;
