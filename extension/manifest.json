@@ -1,5 +1,5 @@
 {
-  "manifest_version": 4,
+  "manifest_version": 3,
   "name": "MyCATTLES Bridge",
   "version": "1.0.0",
   "description": "Local form analysis, app handoff and browser focus",
