@@ -33,3 +33,10 @@ jobs:
         with:
           name: MyCATTLES-iOS-unsigned
           path: build/ios/iphoneos/Runner.app
+
+      - name: Upload iOS project
+        uses: actions/upload-artifact@v4
+      　with:
+          name: MyCATTLES-iOS-project
+          path: ios/
+          include-hidden-files: true
