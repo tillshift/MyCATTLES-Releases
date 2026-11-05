@@ -1,0 +1,49 @@
+name: iOS Vault Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  vault-test:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.7'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Select and boot iOS simulator
+        id: simulator
+        shell: bash
+        run: |
+          xcrun simctl list devices available
+
+          DEVICE_ID=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+          data = json.load(sys.stdin)
+          devices = [
+              d for runtime, group in data["devices"].items()
+              if "iOS" in runtime
+              for d in group
+              if d["isAvailable"] and "iPhone" in d["name"]
+          ]
+          if not devices:
+              sys.exit("No available iPhone simulator")
+          print(devices[0]["udid"])
+          ')
+
+          echo "device_id=$DEVICE_ID" >> "$GITHUB_OUTPUT"
+          xcrun simctl boot "$DEVICE_ID" || true
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+
+      - name: Run vault integration test
+        run: |
+          flutter test integration_test/vault_test.dart \
+            -d "${{ steps.simulator.outputs.device_id }}"
