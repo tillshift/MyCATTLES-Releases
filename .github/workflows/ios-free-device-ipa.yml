@@ -1,0 +1,57 @@
+name: iOS Free Device IPA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-unsigned-ipa:
+    runs-on: macos-26
+    timeout-minutes: 35
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.7'
+          cache: true
+
+      - name: Check iOS project
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f ios/Runner.xcodeproj/project.pbxproj || { echo 'Missing ios project. Select feature/ios branch.'; exit 1; }
+          test -f pubspec.yaml || { echo 'Missing pubspec.yaml'; exit 1; }
+
+      - name: Resolve dependencies
+        run: flutter pub get
+
+      - name: Build iPhone app without code signing
+        timeout-minutes: 25
+        run: flutter build ios --release --no-codesign
+
+      - name: Package unsigned IPA for local sideload signing
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP="build/ios/iphoneos/Runner.app"
+          test -d "$APP" || { echo "App bundle not found: $APP"; exit 1; }
+          mkdir -p "$RUNNER_TEMP/unsigned/Payload" dist
+          ditto "$APP" "$RUNNER_TEMP/unsigned/Payload/Runner.app"
+          cd "$RUNNER_TEMP/unsigned"
+          /usr/bin/zip -q -r -y "$GITHUB_WORKSPACE/dist/MyCATTLES-iOS-unsigned.ipa" Payload
+          test -s "$GITHUB_WORKSPACE/dist/MyCATTLES-iOS-unsigned.ipa"
+          unzip -l "$GITHUB_WORKSPACE/dist/MyCATTLES-iOS-unsigned.ipa" | head -25
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyCATTLES-iOS-unsigned-IPA
+          path: dist/MyCATTLES-iOS-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 7
