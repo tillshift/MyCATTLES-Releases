@@ -130,7 +130,7 @@ MyCATTLESでは、利用者自身が個人情報を管理できる仕組みの�
 
 ## 開発支援のお願い
 
-MyCATTLESの機能拡充と継続開発に向け、クラウドファンディングを通じた支援を募集しています。
+MyCATTLESの普及に向け、クラウドファンディングを通じた支援を募集しています。
 
 **[CAMPFIRE — MyCATTLES開発支援プロジェクト](https://camp-fire.jp/projects/993289/view)**
 
