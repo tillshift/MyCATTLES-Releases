@@ -14,14 +14,14 @@ MyCATTLESは、必要に応じて代替情報を生成し、サービスごと�
 
 ## ダウンロード
 
-**Windows版 v0.2.1 を公開しました。**
+**Windows x64 版 **v0.2.3** を公開しました。開示画面と生成画面のアクセシビリティを改善し、Windows アプリのアイコンとサイドバーのロゴを更新しました。**
 
-**[最新版をダウンロードする（GitHub Releases）](https://github.com/tillshift/MyCATLLES-Releases/releases/latest)**
+**[最新版をダウンロードする（GitHub Releases）](https://github.com/tillshift/MyCATTLES-Releases/releases/latest)**
 
 | 配布ファイル | 内容 |
 |---|---|
-| `MyCATTLES-Setup-0.2.1-win-x64.exe` | Windowsアプリ |
-| `MyCATTLES-Chrome-1.0.0.zip` | Chrome拡張機能 |
+| `MyCATTLES-Setup-0.2.3-win-x64.exe` | Windowsアプリ |
+| [MyCATTLES Bridge v1.1.0](https://chromewebstore.google.com/detail/mycattles-bridge/iomnjcehdaoifhnmjdbljikfdndccfja?hl=ja) | Chrome 連携用の拡張機能。手動導入用 ZIP は [v0.2.2 の Assets](https://github.com/tillshift/MyCATTLES-Releases/releases/tag/v0.2.2) から取得できます。 |
 | `SHA256SUMS.txt` | ファイルの整合性確認 |
 
 Windowsアプリ単体でも利用できます。ブラウザとのフォーム連携機能を利用する場合は、Chrome拡張機能も導入してください。
@@ -40,6 +40,10 @@ Webサービスごとにアカウント情報を管理できます。
 
 複数のサービスで同じ情報を使い回すことを減らすための機能です。
 
+### 二段階認証（TOTP）
+
+Windows アプリでサービスやアカウントごとに TOTP の設定を管理し、認証コードを生成・表示・コピーできます。MyCATTLES Bridge を使うと、対応する設定用 QR コードを Web ページから取り込めます。
+
 ### Chrome拡張機能との連携
 
 Webページのフォームを解析し、MyCATTLESとの情報連携を支援します。
@@ -56,14 +60,18 @@ Webページのフォームを解析し、MyCATTLESとの情報連携を支援�
 
 ### 1. Windowsアプリのインストール
 
-1. [最新版のリリースページ](https://github.com/tillshift/MyCATLLES-Releases/releases/latest)を開きます。
-2. `MyCATTLES-Setup-0.2.1-win-x64.exe` をダウンロードします。
+1. [最新版のリリースページ](https://github.com/tillshift/MyCATTLES-Releases/releases/latest)を開きます。
+2. `MyCATTLES-Setup-0.2.3-win-x64.exe` をダウンロードします。
 3. インストーラーを実行します。
 4. 画面の案内に従ってインストールします。
 
 ### 2. Chrome拡張機能の導入（任意）
 
-1. `MyCATTLES-Chrome-1.0.0.zip` をダウンロードして展開します。
+通常は [Chrome ウェブストアから MyCATTLES Bridge を追加](https://chromewebstore.google.com/detail/mycattles-bridge/iomnjcehdaoifhnmjdbljikfdndccfja?hl=ja)します。すでに v1.1.0 を利用している場合は、そのまま使えます。
+
+ZIP から手動で導入する場合は、以下の手順に従ってください。
+
+1. `MyCATTLES-Chrome-1.1.0.zip` をダウンロードして展開します。
 2. Chromeで `chrome://extensions/` を開きます。
 3. 「デベロッパーモード」を有効にします。
 4. 「パッケージ化されていない拡張機能を読み込む」を選択します。
@@ -79,7 +87,7 @@ Webページのフォームを解析し、MyCATTLESとの情報連携を支援�
 
 Chrome拡張機能の詳細画面からIDを確認できます。
 
-詳しい導入手順や注意事項については、[v0.2.1のリリースノート](https://github.com/tillshift/MyCATLLES-Releases/releases/tag/v0.2.1)をご覧ください。
+詳しい導入手順や注意事項については、[v0.2.3のリリースノート](https://github.com/tillshift/MyCATTLES-Releases/releases/tag/v0.2.3)をご覧ください。
 
 ---
 
@@ -116,7 +124,7 @@ MyCATTLESは、利用者自身が登録情報を管理し、サービスに提�
 
 不具合や改善要望は、GitHub Issuesで受け付けています。
 
-**[不具合報告・改善要望を投稿する](https://github.com/tillshift/MyCATLLES-Releases/issues)**
+**[不具合報告・改善要望を投稿する](https://github.com/tillshift/MyCATTLES-Releases/issues)**
 
 報告時には、利用しているバージョン、発生した操作、期待した結果、実際の結果を記載してください。
 
@@ -146,7 +154,7 @@ Its goal is to reduce unnecessary sharing and reuse of personal information whil
 
 The current release supports Windows x64, with optional Google Chrome extension integration for web form assistance.
 
-**[Download the latest release](https://github.com/tillshift/MyCATLLES-Releases/releases/latest)**
+**[Download the latest release](https://github.com/tillshift/MyCATTLES-Releases/releases/latest)**
 
 Note: MyCATTLES does not guarantee complete anonymity or protection against data breaches.
 
