@@ -14,15 +14,15 @@ MyCATTLESは、必要に応じて代替情報を生成し、サービスごと�
 
 ## ダウンロード
 
-**Windows x64 版 **v0.2.3** を公開しました。開示画面と生成画面のアクセシビリティを改善し、Windows アプリのアイコンとサイドバーのロゴを更新しました。**
+Windows x64 版 v0.2.4 を公開しました。画面の案内と登録済み項目の編集を改善しました。Chrome拡張 MyCATTLES Bridge v1.1.1 では、アイコンとフォーム連携画面を見直しました。
 
-**[最新版をダウンロードする（GitHub Releases）](https://github.com/tillshift/MyCATTLES-Releases/releases/latest)**
+[最新版をダウンロードする（GitHub Releases）](https://github.com/tillshift/MyCATTLES-Releases/releases/latest)
 
 | 配布ファイル | 内容 |
 |---|---|
-| `MyCATTLES-Setup-0.2.3-win-x64.exe` | Windowsアプリ |
-| [MyCATTLES Bridge v1.1.0](https://chromewebstore.google.com/detail/mycattles-bridge/iomnjcehdaoifhnmjdbljikfdndccfja?hl=ja) | Chrome 連携用の拡張機能。手動導入用 ZIP は [v0.2.2 の Assets](https://github.com/tillshift/MyCATTLES-Releases/releases/tag/v0.2.2) から取得できます。 |
-| `SHA256SUMS.txt` | ファイルの整合性確認 |
+| [MyCATTLES-Setup-0.2.4-win-x64.exe](https://github.com/tillshift/MyCATTLES-Releases/releases/download/v0.2.4/MyCATTLES-Setup-0.2.4-win-x64.exe) | Windows x64 版インストーラー |
+| [MyCATTLES-Bridge-1.1.1-WebStore.zip](https://github.com/tillshift/MyCATTLES-Releases/releases/download/v0.2.4/MyCATTLES-Bridge-1.1.1-WebStore.zip) | Chrome拡張 v1.1.1 の手動導入用ZIP |
+| [SHA256SUMS.txt](https://github.com/tillshift/MyCATTLES-Releases/releases/download/v0.2.4/SHA256SUMS.txt) | Windowsインストーラーの整合性確認用 |
 
 Windowsアプリ単体でも利用できます。ブラウザとのフォーム連携機能を利用する場合は、Chrome拡張機能も導入してください。
 
@@ -61,17 +61,17 @@ Webページのフォームを解析し、MyCATTLESとの情報連携を支援�
 ### 1. Windowsアプリのインストール
 
 1. [最新版のリリースページ](https://github.com/tillshift/MyCATTLES-Releases/releases/latest)を開きます。
-2. `MyCATTLES-Setup-0.2.3-win-x64.exe` をダウンロードします。
+2. `MyCATTLES-Setup-0.2.4-win-x64.exe` をダウンロードします。
 3. インストーラーを実行します。
 4. 画面の案内に従ってインストールします。
 
 ### 2. Chrome拡張機能の導入（任意）
 
-通常は [Chrome ウェブストアから MyCATTLES Bridge を追加](https://chromewebstore.google.com/detail/mycattles-bridge/iomnjcehdaoifhnmjdbljikfdndccfja?hl=ja)します。すでに v1.1.0 を利用している場合は、そのまま使えます。
+通常は [Chrome ウェブストアから MyCATTLES Bridge を追加](https://chromewebstore.google.com/detail/mycattles-bridge/iomnjcehdaoifhnmjdbljikfdndccfja?hl=ja)します。
 
 ZIP から手動で導入する場合は、以下の手順に従ってください。
 
-1. `MyCATTLES-Chrome-1.1.0.zip` をダウンロードして展開します。
+1. `MyCATTLES-Bridge-1.1.1-WebStore.zip` をダウンロードして展開します。
 2. Chromeで `chrome://extensions/` を開きます。
 3. 「デベロッパーモード」を有効にします。
 4. 「パッケージ化されていない拡張機能を読み込む」を選択します。
@@ -87,7 +87,7 @@ ZIP から手動で導入する場合は、以下の手順に従ってくださ�
 
 Chrome拡張機能の詳細画面からIDを確認できます。
 
-詳しい導入手順や注意事項については、[v0.2.3のリリースノート](https://github.com/tillshift/MyCATTLES-Releases/releases/tag/v0.2.3)をご覧ください。
+詳しい導入手順や注意事項については、[v0.2.4のリリースノート](https://github.com/tillshift/MyCATTLES-Releases/releases/tag/v0.2.4)をご覧ください。
 
 ---
 
